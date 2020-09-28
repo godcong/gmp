@@ -1,0 +1,2 @@
+# gmp
+go project migrate
