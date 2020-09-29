@@ -48,7 +48,7 @@ func fixImport(path string, srcModule string, targetModule string) error {
 	return nil
 }
 
-func FileBackup(path, srcName, targetName string, cb BackupCallback) error {
+func FileBackupFix(path, srcName, targetName string, cb BackupCallback) error {
 	if err := backupFile(path, srcName, targetName); err != nil {
 		return err
 	}

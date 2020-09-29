@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestFileBackup(t *testing.T) {
+func TestFileBackupFix(t *testing.T) {
 	type args struct {
 		path   string
 		src    string
@@ -49,7 +49,7 @@ func TestFileBackup(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			err := FileBackup(tt.args.path, tt.args.src, tt.args.target, tt.args.cb)
+			err := FileBackupFix(tt.args.path, tt.args.src, tt.args.target, tt.args.cb)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("FileBackup() error = %v, wantErr %v", err, tt.wantErr)
 				return
