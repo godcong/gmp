@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 type BackupCallback func([]byte) []byte
@@ -84,14 +85,20 @@ func FileBackupFix(path, srcName, targetName string, cb BackupCallback) error {
 	return nil
 }
 
-func fixModule(target string) []byte {
-	//if strings.Index(string(line), "module") >= 0 {
-	//	if s := strings.Split(string(line), " "); len(s) > 1 {
-	//		src = s[len(s)-1]
-	//	}
-	//	line = fixModule(target)
-	//}
-	return []byte("module " + target)
+func getModule(src []byte) string {
+	if strings.Index(string(src), "module") >= 0 {
+		if s := strings.Split(string(src), " "); len(s) > 1 {
+			return s[len(s)-1]
+		}
+	}
+	return "src"
+}
+
+func fixModule(src []byte, target string) []byte {
+	if strings.Index(string(src), "module") >= 0 {
+		return []byte("module " + target)
+	}
+	return src
 }
 
 func backupFile(path string, src, target string) error {
