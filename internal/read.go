@@ -85,13 +85,13 @@ func FileBackupFix(path, srcName, targetName string, cb BackupCallback) error {
 	return nil
 }
 
-func getModule(src []byte) string {
+func getModule(src []byte) (string, bool) {
 	if strings.Index(string(src), "module") >= 0 {
 		if s := strings.Split(string(src), " "); len(s) > 1 {
-			return s[len(s)-1]
+			return s[len(s)-1], true
 		}
 	}
-	return "src"
+	return "src", false
 }
 
 func fixModule(src []byte, target string) []byte {
