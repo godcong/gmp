@@ -2,7 +2,7 @@ package internal
 
 import (
 	"bufio"
-	"github.com/pkg/errors"
+	"errors"
 	"io"
 	"io/ioutil"
 	"os"
