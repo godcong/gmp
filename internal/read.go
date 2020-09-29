@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-type BackupCallback func([]byte) []byte
+type BackupCallback func([]byte) ([]byte, error)
 
 var modName = "go.mod"
 var backupName = modName + ".old"
@@ -73,7 +73,10 @@ func FileBackupFix(path, srcName, targetName string, cb BackupCallback) error {
 			return err
 		}
 		if cb != nil {
-			line = cb(line)
+			line, err = cb(line)
+			if err != nil {
+				return err
+			}
 		}
 		if _, err := file.Write(line); err != nil {
 			return err
