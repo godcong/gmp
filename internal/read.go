@@ -48,14 +48,18 @@ func fixImport(path string, srcModule string, targetModule string) error {
 	return nil
 }
 
-func FileBackup(src, target string, cb BackupCallback) error {
-	open, err := os.Open(src)
+func FileBackup(path, srcName, targetName string, cb BackupCallback) error {
+	if err := backupFile(path, srcName, targetName); err != nil {
+		return err
+	}
+
+	open, err := os.Open(filepath.Join(path, targetName))
 	if err != nil {
 		return err
 	}
 	defer open.Close()
 	reader := bufio.NewReader(open)
-	file, err := os.OpenFile(target, os.O_TRUNC|os.O_CREATE|os.O_RDWR|os.O_SYNC, 0755)
+	file, err := os.OpenFile(filepath.Join(path, srcName), os.O_TRUNC|os.O_CREATE|os.O_RDWR|os.O_SYNC, 0755)
 	if err != nil {
 		return err
 	}
