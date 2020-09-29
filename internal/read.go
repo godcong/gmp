@@ -16,8 +16,7 @@ var backupName = modName + ".old"
 var ErrFileIsAlreadyExist = errors.New("target file is already exist")
 
 func UpdateGoFile(path string, src, target string) error {
-	current := GetCurrentPath()
-	dir, err := ioutil.ReadDir(current)
+	dir, err := ioutil.ReadDir(path)
 	if err != nil {
 		return err
 	}
@@ -29,7 +28,7 @@ func UpdateGoFile(path string, src, target string) error {
 			continue
 		}
 		if filepath.Ext(info.Name()) == ".go" {
-			if err := backupFile(path, info.Name(), info.Name()+".old"); err != nil {
+			if err := FileBackupFix(path, info.Name(), info.Name()+".old", nil); err != nil {
 				return err
 			}
 

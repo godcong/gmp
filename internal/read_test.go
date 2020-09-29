@@ -58,3 +58,34 @@ func TestFileBackupFix(t *testing.T) {
 		})
 	}
 }
+
+func TestUpdateGoFile(t *testing.T) {
+	type args struct {
+		path   string
+		src    string
+		target string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		// TODO: Add test cases.
+		{
+			name: "",
+			args: args{
+				path:   "D:\\workspace\\golang\\project\\gmp\\test\\",
+				src:    "file2.go",
+				target: "file2.go.back",
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := UpdateGoFile(tt.args.path, tt.args.src, tt.args.target); (err != nil) != tt.wantErr {
+				t.Errorf("UpdateGoFile() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
