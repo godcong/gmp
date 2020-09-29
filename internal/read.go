@@ -48,16 +48,16 @@ func fixImport(path string, srcModule string, targetModule string) error {
 	return nil
 }
 
-func FileBackup(src, target string, cb BackupCallback) (string, error) {
+func FileBackup(src, target string, cb BackupCallback) error {
 	open, err := os.Open(src)
 	if err != nil {
-		return "", err
+		return err
 	}
 	defer open.Close()
 	reader := bufio.NewReader(open)
 	file, err := os.OpenFile(target, os.O_TRUNC|os.O_CREATE|os.O_RDWR|os.O_SYNC, 0755)
 	if err != nil {
-		return "", err
+		return err
 	}
 	defer file.Close()
 	for {
@@ -66,16 +66,19 @@ func FileBackup(src, target string, cb BackupCallback) (string, error) {
 			if err == io.EOF {
 				break
 			}
-			return "", err
+			return err
 		}
 		if cb != nil {
 			line = cb(line)
 		}
 		if _, err := file.Write(line); err != nil {
-			return "", err
+			return err
+		}
+		if _, err := file.WriteString("\n"); err != nil {
+			return err
 		}
 	}
-	return src, nil
+	return nil
 }
 
 func fixModule(target string) []byte {
